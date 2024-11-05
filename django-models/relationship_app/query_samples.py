@@ -14,7 +14,7 @@ def get_books_by_author(author_name):
 # Function to retrieve the librarian for a specific library
 def get_librarian_for_library(library_id):
     try:
-        librarian = Librarian.objects.get(library_id=library_id)
+        librarian = Librarian.objects.get(library=library_id)
         return librarian
     except Librarian.DoesNotExist:
         return None
