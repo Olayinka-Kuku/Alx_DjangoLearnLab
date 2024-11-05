@@ -1,16 +1,20 @@
-from relationship_app.models import Author, Book, Library, Librarian
+# query_samples.py
 
-# Query all books by a specific author
-def books_by_author(author_name):
-    author = Author.objects.get(name=author_name)
-    return Book.objects.filter(author=author)
+from relationship_app.models import Librarian, Library
 
-# List all books in a library
-def books_in_library(library_name):
-    library = Library.objects.get(name=library_name)
-    return library.books.all()
+# Retrieve the librarian for a specific library
+def get_librarian_for_library(library_id):
+    try:
+        librarian = Librarian.objects.get(library_id=library_id)
+        return librarian
+    except Librarian.DoesNotExist:
+        return None
 
-# Retrieve the librarian for a library
-def librarian_for_library(library_name):
-    library = Library.objects.get(name=library_name)
-    return library.librarian
+# Example usage:
+if __name__ == "__main__":
+    library_id = 1  # Change this to the ID of the library you want to check
+    librarian = get_librarian_for_library(library_id)
+    if librarian:
+        print(f"The librarian for library ID {library_id} is {librarian.name}.")
+    else:
+        print(f"There is no librarian for library ID {library_id}.")
