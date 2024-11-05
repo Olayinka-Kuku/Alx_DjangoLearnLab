@@ -1,10 +1,9 @@
 # Delete Operation
 
-**Command:**
 ```python
-retrieved_book.delete()
-Book.objects.all()  # To confirm deletion, this should return an empty QuerySet
+# Import the Book model
+from bookshelf.models import Book
 
-
-Expected Output: QuerySet []>
-This confirms the book was deleted from the database.
+# Command to delete the book instance
+book = Book.objects.get(title="Nineteen Eighty-Four")
+book.delete()
