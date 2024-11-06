@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.views import View
+from django.views import views
 from django.views.generic.detail import DetailView
 from .models import Book, Library
 from .models import Library
@@ -30,7 +30,7 @@ def register(request):
     return render(request, 'relationship_app/register.html', {'form': form})
 
 # Login view
-class LoginView(View):
+class LoginView(views):
     def get(self, request):
         form = AuthenticationForm()
         return render(request, 'relationship_app/login.html', {'form': form})
@@ -44,7 +44,7 @@ class LoginView(View):
         return render(request, 'relationship_app/login.html', {'form': form})
 
 # LogoutView (class-based)
-class LogoutView(View):
+class LogoutView(views):
     def get(self, request):
         logout(request)
         return redirect('login')  # Redirect to login after logout
