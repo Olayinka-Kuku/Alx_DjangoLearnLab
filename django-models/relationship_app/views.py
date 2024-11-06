@@ -7,6 +7,26 @@ from .models import Book
 from .models import Library
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.http import HttpResponseForbidden
+from .models import UserProfile
+from django.contrib.auth.decorators import user_passes_test
+
+# View for Admin users
+@user_passes_test(lambda user: user.userprofile.role == 'Admin')
+def admin_view(request):
+    return render(request, 'admin_view.html')
+
+# View for Librarian users
+@user_passes_test(lambda user: user.userprofile.role == 'Librarian')
+def librarian_view(request):
+    return render(request, 'librarian_view.html')
+
+# View for Member users
+@user_passes_test(lambda user: user.userprofile.role == 'Member')
+def member_view(request):
+    return render(request, 'member_view.html')
 
 class SignUpView(CreateView):
     form_class = UserCreationForm
