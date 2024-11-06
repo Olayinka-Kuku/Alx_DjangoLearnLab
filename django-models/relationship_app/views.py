@@ -18,19 +18,16 @@ class LibraryDetailView(DetailView):
     template_name = 'relationship_app/library_detail.html'
     context_object_name = 'library'
 
-# Register view
-class RegisterView(View):
-    def get(self, request):
-        form = UserCreationForm()
-        return render(request, 'relationship_app/register.html', {'form': form})
-
-    def post(self, request):
+# Register view (function-based)
+def register(request):
+    if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('home')  # Replace 'home' with the main page after registration
-        return render(request, 'relationship_app/register.html', {'form': form})
+            form.save()
+            return redirect('login')  # Redirect to login after successful registration
+    else:
+        form = UserCreationForm()
+    return render(request, 'relationship_app/register.html', {'form': form})
 
 # Login view
 class LoginView(View):
@@ -46,9 +43,9 @@ class LoginView(View):
             return redirect('home')  # Adjust this as needed
         return render(request, 'relationship_app/login.html', {'form': form})
 
-# Logout view
-def logout_view(request):
-    logout(request)
-    return render(request, 'relationship_app/logout.html')
-
+# LogoutView (class-based)
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        return redirect('login')  # Redirect to login after logout
 
