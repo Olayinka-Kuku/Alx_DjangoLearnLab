@@ -21,4 +21,5 @@ from django.views import list_books, LibraryDetailView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('relationship/', include('relationship_app.urls')),
+    
 ]
