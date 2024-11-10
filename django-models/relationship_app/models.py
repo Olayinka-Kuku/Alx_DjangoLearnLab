@@ -3,6 +3,22 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+class Book(models.Model):
+    title = models.CharField(max_length=255)
+    author = models.CharField(max_length=255)
+    published_date = models.DateField()
+
+    class Meta:
+        permissions = [
+            ("can_add_book", "Can add a new book"),
+            ("can_change_book", "Can edit a book"),
+            ("can_delete_book", "Can delete a book"),
+        ]
+
+    def __str__(self):
+        return self.title
+
+
 # Define the roles
 ROLE_CHOICES = [
     ('Admin', 'Admin'),
