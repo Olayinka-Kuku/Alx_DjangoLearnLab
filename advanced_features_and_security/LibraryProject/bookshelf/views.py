@@ -3,20 +3,19 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import permission_required
 from .models import Book
 from django.views.generic import ListView
-from .forms import BookSearchForm
+from django.shortcuts import render
+from .forms import ExampleForm
 
-
-def book_search(request):
+def example_view(request):
     if request.method == 'POST':
-        form = BookSearchForm(request.POST)
+        form = ExampleForm(request.POST)
         if form.is_valid():
             search_term = form.cleaned_data['search_term']
-            books = Book.objects.filter(title__icontains=search_term)
-            return render(request, 'bookshelf/book_list.html', {'books': books})
+            # Process the search term or perform any desired actions
     else:
-        form = BookSearchForm()
-    return render(request, 'bookshelf/book_search.html', {'form': form})
+        form = ExampleForm()
 
+    return render(request, 'bookshelf/form_example.html', {'form': form})
 
 
 def book_list(request):
