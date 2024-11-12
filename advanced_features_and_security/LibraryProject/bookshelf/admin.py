@@ -3,6 +3,10 @@ from .models import Book
 from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser
 
+@admin.register(Book)
+class BookAdmin(admin.ModelAdmin):
+    list_display = ('title', 'author', 'published_date')
+    
 class CustomUserAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets + (
         (None, {"fields": ("date_of_birth", "profile_photo")}),
