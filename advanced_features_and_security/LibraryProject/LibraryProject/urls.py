@@ -23,4 +23,5 @@ urlpatterns = [
     path('books/', views.book_list, name='book_list'),  # For function-based view
     # or for class-based view
     # path('books/', views.BookListView.as_view(), name='book_list'),
+    path('book_search/', views.book_search, name='book_search'),
 ]

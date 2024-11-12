@@ -2,22 +2,32 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import permission_required
 from .models import Book
+from django.views.generic import ListView
+from .forms import BookSearchForm
+
+
+def book_search(request):
+    if request.method == 'POST':
+        form = BookSearchForm(request.POST)
+        if form.is_valid():
+            search_term = form.cleaned_data['search_term']
+            books = Book.objects.filter(title__icontains=search_term)
+            return render(request, 'bookshelf/book_list.html', {'books': books})
+    else:
+        form = BookSearchForm()
+    return render(request, 'bookshelf/book_search.html', {'form': form})
+
+
 
 def book_list(request):
     # Fetch all books or a filtered set depending on your requirements
     books = Book.objects.all()  # Or use filters to customize
     return render(request, 'bookshelf/book_list.html', {'books': books})
 
-from django.views.generic import ListView
-from .models import Book
-
 class BookListView(ListView):
     model = Book
     template_name = 'bookshelf/book_list.html'
     context_object_name = 'books'
-
-
-
 
 @permission_required('bookshelf.can_view', raise_exception=True)
 def view_book(request, book_id):
