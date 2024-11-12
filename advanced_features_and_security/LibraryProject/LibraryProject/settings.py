@@ -132,6 +132,11 @@ SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevents browsers from interpreting files 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
+
+# Enforce HTTPS connections by redirecting all HTTP traffic to HTTPS
+SECURE_SSL_REDIRECT = True  # This will automatically redirect HTTP to HTTPS
+
+# HTTP Strict Transport Security (HSTS) to tell browsers to always use HTTPS
 SECURE_HSTS_SECONDS = 31536000  # 1 year in seconds
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Apply HSTS to all subdomains
-
+SECURE_HSTS_PRELOAD = True  # Allow the site to be included in browser preloaded HSTS lists
