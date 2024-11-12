@@ -132,6 +132,8 @@ SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevents browsers from interpreting files 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
+# The header Django will look for when determining if the request was made using HTTPS.
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Enforce HTTPS connections by redirecting all HTTP traffic to HTTPS
 SECURE_SSL_REDIRECT = True  # This will automatically redirect HTTP to HTTPS
