@@ -12,3 +12,4 @@ urlpatterns = [
     path('books/delete/<int:pk>/', views.BookDeleteView.as_view(), name='book-delete'),
     path('books/', BookListView.as_view(), name='book-list'),  # List and create books
     path('books/<int:pk>/', BookDetailView.as_view(), name='book-detail'),  # Retrieve single book
+]
