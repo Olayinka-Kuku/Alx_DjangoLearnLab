@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from .models import Book, Author
 from rest_framework.authtoken.models import Token
+from django.contrib.auth.models import User
 
 class BookAPITests(APITestCase):
     def setUp(self):
@@ -14,6 +15,8 @@ class BookAPITests(APITestCase):
         # Create a user and obtain a token for authentication
         self.user = User.objects.create_user(username="testuser", password="password")
         self.token = Token.objects.create(user=self.user)
+        # Log in the user
+        self.client.login(username='testuser', password='testpassword')
 
     def test_create_book(self):
         url = reverse('book-list')  # Adjust according to your URL config
@@ -22,9 +25,11 @@ class BookAPITests(APITestCase):
             'author': self.author.id,
             'publication_year': 2023
         }
+        
         response = self.client.post(url, data, HTTP_AUTHORIZATION='Token ' + self.token.key)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Book.objects.count(), 2)
+
 
     def test_update_book(self):
         url = reverse('book-detail', args=[self.book.id])  # Adjust to match your URL pattern
