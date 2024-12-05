@@ -23,7 +23,4 @@ urlpatterns = [
     path('login/', include('blog.urls')),
     path('logout/', include('blog.urls')),
     path('profile/', include('blog.urls')),
-
-    # Add a root path to redirect to login or home page
-    path('', lambda request: redirect('home')),
 ]
