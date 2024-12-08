@@ -31,3 +31,9 @@
     <script src="{% static 'js/scripts.js' %}"></script>
 </body>
 </html>
+
+<!-- blog/templates/blog/base.html -->
+<form method="get" action="{% url 'blog:search' %}">
+    <input type="text" name="q" placeholder="Search..." value="{{ query }}">
+    <button type="submit">Search</button>
+</form>
