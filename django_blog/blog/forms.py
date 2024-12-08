@@ -7,7 +7,7 @@ from .models import Comment
 from taggit.forms import TagWidget 
 
 class PostForm(forms.ModelForm):
-    tags = forms.CharField(widget=TagWidget())  # Use TagWidget to handle the tags input
+    tags = forms.CharField(widgets=TagWidget())  # Use TagWidget to handle the tags input
 
     class Meta:
         model = Post
