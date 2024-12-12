@@ -1,25 +1,31 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from rest_framework.authtoken.models import Token
+from django.contrib.auth.password_validation import validate_password
 
-# Get the User model
+# Assuming you are using a custom user model
 User = get_user_model()
 
-class UserRegistrationSerializer(serializers.ModelSerializer):
-    # Using serializers.CharField() for password field
-    password = serializers.CharField(write_only=True)
-    
+# Serializer for User Registration
+class RegisterSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
+
     class Meta:
         model = User
-        fields = ['username', 'password', 'email']
+        fields = ['username', 'email', 'password', 'first_name', 'last_name']  # Add other fields if necessary
 
     def create(self, validated_data):
-        # Using get_user_model().objects.create_user to create a new user
-        user = User.objects.create_user(
-            username=validated_data['username'],
-            password=validated_data['password'],
-            email=validated_data.get('email', '')
-        )
-        # Create a token for the new user
-        Token.objects.create(user=user)
+        # Create a new user with the validated data
+        user = User.objects.create_user(**validated_data)
         return user
+
+# Serializer for User Login (Optional, if you need login-related serialization)
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField(write_only=True)
+
+# Serializer for User Profile (Fetching user data)
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'first_name', 'last_name']  # Add other profile fields if necessary
+
