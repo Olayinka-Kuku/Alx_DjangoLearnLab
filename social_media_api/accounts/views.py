@@ -40,6 +40,7 @@ class UserProfileView(generics.RetrieveAPIView):
 
 # Example for following a user
 @api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
 def follow_user(request, user_id):
     if not request.user.is_authenticated:
         return Response({"detail": "Authentication credentials were not provided."}, status=401)
@@ -55,6 +56,7 @@ def follow_user(request, user_id):
 
 # Example for unfollowing a user
 @api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
 def unfollow_user(request, user_id):
     if not request.user.is_authenticated:
         return Response({"detail": "Authentication credentials were not provided."}, status=401)
@@ -70,6 +72,7 @@ def unfollow_user(request, user_id):
 
 # Example to list all users to follow
 @api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
 def list_users(request):
     if not request.user.is_authenticated:
         return Response({"detail": "Authentication credentials were not provided."}, status=401)
