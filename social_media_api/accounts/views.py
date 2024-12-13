@@ -38,7 +38,7 @@ class UserProfileView(generics.RetrieveAPIView):
     def get_object(self):
         return self.request.user
 
-# Example for following a user
+# following a user
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
 def follow_user(request, user_id):
@@ -54,7 +54,7 @@ def follow_user(request, user_id):
     request.user.following.add(user_to_follow)
     return Response({"detail": "Followed successfully."}, status=200)
 
-# Example for unfollowing a user
+# unfollowing a user
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
 def unfollow_user(request, user_id):
@@ -70,7 +70,7 @@ def unfollow_user(request, user_id):
     request.user.following.remove(user_to_unfollow)
     return Response({"detail": "Unfollowed successfully."}, status=200)
 
-# Example to list all users to follow
+# list all users to follow
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
 def list_users(request):
