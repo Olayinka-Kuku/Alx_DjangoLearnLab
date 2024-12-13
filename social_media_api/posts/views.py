@@ -9,6 +9,42 @@ from rest_framework.views import APIView
 from django.contrib.contenttypes.models import ContentType
 from notifications.models import Notification
 from django.shortcuts import get_object_or_404
+from rest_framework import generics
+
+
+class LikePostView(generics.GenericAPIView):
+    def post(self, request, pk):
+        # Retrieve the post object using generics.get_object_or_404
+        post = generics.get_object_or_404(Post, pk=pk)
+        
+        # Check if the user has already liked the post
+        Like, created = Like.objects.get_or_create(user=request.user, post=post)
+        
+        if created:
+            # Generate a notification for the post author
+            Notification.objects.create(
+                user=post.author,
+                message=f'{request.user.username} liked your post: {post.title}',
+                post=post
+            )
+            return Response({"message": "Post liked!"}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({"message": "You have already liked this post."}, status=status.HTTP_400_BAD_REQUEST)
+        
+class UnlikePostView(generics.GenericAPIView):
+    def delete(self, request, pk):
+        # Retrieve the post object using generics.get_object_or_404
+        post = generics.get_object_or_404(Post, pk=pk)
+        
+        # Try to retrieve and delete the like object if it exists
+        try:
+            like = Like.objects.get(user=request.user, post=post)
+            like.delete()  # Delete the like
+            return Response({"message": "Post unliked!"}, status=status.HTTP_204_NO_CONTENT)
+        except Like.DoesNotExist:
+            return Response({"message": "You have not liked this post yet."}, status=status.HTTP_400_BAD_REQUEST)
+       
+
 
 class LikePost(APIView):
     permission_classes = [IsAuthenticated]
