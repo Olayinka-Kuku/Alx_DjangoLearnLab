@@ -279,3 +279,24 @@ This API allows users to manage posts and comments on a social media platform. I
 - Current version: **v1**
 - Future versions will be added to support backward compatibility.
 
+# User Follows and Feed API Documentation
+
+This documentation outlines the **User Follows** and **Feed** functionalities added to the Social Media API. These features allow users to follow and unfollow other users, and view an aggregated feed of posts from the users they follow.
+
+---
+
+## Endpoints Overview
+
+- **Follow a User**: `POST /follow/<int:user_id>/`
+- **Unfollow a User**: `POST /unfollow/<int:user_id>/`
+- **View Feed**: `GET /feed/`
+
+---
+
+## 1. Follow User
+
+### Endpoint
+`POST /follow/<int:user_id>/`
+
+### Description
+This endpoint allows a user to follow another user. After 
