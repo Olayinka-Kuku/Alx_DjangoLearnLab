@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import authenticate, get_user_model
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import RegisterSerializer, LoginSerializer, UserSerializer, CustomUserSerializer
+from .serializers import RegisterSerializer, LoginSerializer, UserSerializer
 from django.contrib.auth import login
 from rest_framework.decorators import api_view, permission_classes
 from .models import CustomUser
@@ -78,5 +78,5 @@ def list_users(request):
         return Response({"detail": "Authentication credentials were not provided."}, status=401)
 
     users = CustomUser.objects.all()  # Fetch all users
-    serializer = CustomUserSerializer(users, many=True)
+    serializer = UserSerializer(users, many=True)
     return Response(serializer.data)
